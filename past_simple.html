@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+const verbs = ["be", "bring", "can", "come", "do", "drink", "eat", "find", "ge", "give", "go", "have", "know", "learn", "make", "put"];
+const pastSimpleList = ["was/were", "brought", "could", "came", "did", "drank", "ate", "found", "got", "gave", "went", "had", "knew", "learnt", "made", "put"];
+const numeroPreguntas = 5;
+
+
+function generarExamen() {
+  
+  var container = document.getElementById("form");
+  
+  
+  var child = container.lastElementChild;  
+  while (child) {
+	container.removeChild(child);
+	child = container.lastElementChild;
+  } 
+  
+  container.appendChild(document.createElement("br"));
+  
+  for (var i = 0; i < numeroPreguntas; i++){
+
+	container.appendChild(document.createElement("br"));
+	var verbsIndex = Math.floor(Math.random()*verbs.length);
+	
+	var div = document.createElement("div");
+	div.id = "grupo" + i;
+	container.appendChild(div);
+
+	var input = document.createElement("input");
+	input.type = "text";
+	input.id = "pregunta" + i;
+	input.readOnly = true;
+	input.value = verbs[verbsIndex];
+	div.appendChild(input);
+	
+	input = document.createElement("input");
+	input.type = "text";
+	input.id = "respuesta" + i;
+	div.appendChild(input);
+	
+	
+	container.appendChild(document.createElement("br"));
+  }
+}
+
+function corregirExamen() {
+  
+  var container = document.getElementById("form");
+  
+  for (var i = 0; i < numeroPreguntas; i++){
+	
+	let verb = document.getElementById("pregunta" + i).value;
+	let indexVerb = verbs.indexOf(verb);
+	let pastSimple = pastSimpleList[indexVerb];
+	
+	if (pastSimple != document.getElementById("respuesta" + i).value.toLowerCase()){
+		document.getElementById("respuesta" + i).style.backgroundColor = 'red';
+		let textNode = document.createTextNode('  ' + pastSimple);
+		document.getElementById("grupo" + i).appendChild(textNode);
+	}
+	else{
+		document.getElementById("respuesta" + i).style.backgroundColor = 'green';
+	}
+  }
+}
+</script>
+</head>
+<body>
+
+<h1>Past Simple</h1>
+
+<form id="form" action="#">
+</form>
+
+<form id="botonera" action="#">
+  
+  <button type="button" onclick="generarExamen()">Generar nuevo examen</button>
+  <button type="button" onclick="corregirExamen()">Corregir examen</button>
+</form>
+
+
+</body>
+</html>
